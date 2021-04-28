@@ -1,0 +1,115 @@
+﻿
+@model List<Record>
+    @{ 
+        IReadOnlyDictionary<int, string> ResourceType = new Dictionary<int, string>
+        {
+            {(int)ServiceType.Oxygen, "Oxygen" },
+            {(int)ServiceType.Plasma, "Plasma" },
+            {(int)ServiceType.Medicine, "Medicines" },
+        };
+    }
+@if (Model != null && Model.Count > 0)
+{
+    <div class="container">
+        <div class="col-sm-12">
+            <h2 class="lbl">There are no resources available for the search criteria</h2>
+        </div>
+    </div>
+}
+else
+{
+    foreach (var r in Model)
+    {
+        <div class="col-sm-4 c-card">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <label>@ResourceType[(int)r.ServiceType]</label>
+                    <br />
+                    <label class="lbl">Provider: <span>@r.Name</span></label>
+                    <label class="lbl" style="width: 100%">
+                        Contact: <span>@r.Contact</span>
+                        <label class="pull-right">
+                            <a href="tel:@r.Contact" title="Call @r.Contact" role="button" class="btn btn-success">
+                                <i class="fa fa-phone"></i> Call
+                            </a>
+                            <button title="Copy contact number @r.Contact" role="button" class="btn btn-warning copy-number" data-number="@r.Contact">
+                                <i class="fa fa-copy"></i> Copy Number
+                            </button>
+                        </label>
+                        <label class="clearfix"></label>
+                    </label>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label class="c-form-control">State: @r.StateName</label>
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="c-form-control">City: @r.CityName</label>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <label>Address: </label><label class="c-label">@r.Address</label>
+                        <div class="clearfix"></div>
+                        <label>Additional Info: </label><label class="c-label">@r.Remarks</label>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <ul class="quote-actions-share quote-actions">
+                        @if (Request.Browser.IsMobileDevice)
+                        {
+                            <li>
+                                <label class="btn btn-success">
+                                    <a role="button" href="whatsapp://send?text=@r.Data http://covid-seva.appdror.com" data-qshare-type="wa" data-qshare-content="@r.Data">
+                                        <i class="fa fa-whatsapp fa-fw"></i>
+                                    </a>
+                                </label>
+                            </li>
+                        }
+                        else
+                        {
+                            <li>
+                                <label class="btn btn-success disabled">
+                                    <span role="button" data-qshare-type="wa" data-qshare-content="" class="disabled">
+                                        <i class="fa fa-whatsapp fa-fw"></i>
+                                    </span>
+                                </label>
+                            </li>
+                        }
+                        <li>
+                            <label class="btn btn-warning">
+                                <a role="button" data-qshare-btn="" data-qshare-type="copy" data-qshare-content="@r.Data">
+                                    <i class="fa fa-copy fa-fw"></i>
+                                </a>
+                            </label>
+                        </li>
+                        <li>
+                            <label class="btn btn-primary">
+                                <a role="button" data-qshare-btn="" data-qshare-type="fb" data-qshare-content="@r.Data">
+                                    <i class="fa fa-facebook-f fa-fw"></i>
+                                </a>
+                            </label>
+                        </li>
+                        <li>
+                            <label class="btn btn-info">
+                                <a role="button" data-qshare-btn="" data-qshare-type="tw" data-qshare-content="@r.Data">
+                                    <i class="fa fa-twitter fa-fw"></i>
+                                </a>
+                            </label>
+                        </li>
+                        <li>
+                            <label class="btn btn-primary">
+                                <a role="button" data-qshare-btn="" data-qshare-type="li" data-qshare-content="@r.Data">
+                                    <i class="fa fa-linkedin fa-fw"></i>
+                                </a>
+                            </label>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    }
+}

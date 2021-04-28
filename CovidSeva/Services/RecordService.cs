@@ -38,7 +38,7 @@ namespace CovidSeva.Services
             if (search.ServiceType != null)
                 q = q.Where(r => r.ServiceType == search.ServiceType);
             if (!string.IsNullOrWhiteSpace(search.Name))
-                q = q.Where(r => r.Name == search.Name);
+                q = q.Where(r => r.Name.ToLower().Contains(search.Name.ToLower()));
             if (search.StateId > 0)
                 q = q.Where(r => r.StateId == search.StateId);
             if (search.CityId > 0)
