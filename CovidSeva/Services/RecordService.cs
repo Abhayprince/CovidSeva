@@ -28,7 +28,7 @@ namespace CovidSeva.Services
             {
                 return "Already exists";
             }
-            if(record.StateId > 0)
+            if (record.StateId > 0)
             {
                 record.StateName = _stateCityService.GetStates().FirstOrDefault(s => s.Id == record.StateId)?.Name;
             }
