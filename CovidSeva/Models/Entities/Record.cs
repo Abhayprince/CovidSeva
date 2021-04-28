@@ -42,23 +42,23 @@ namespace CovidSeva.Models.Entities
             {
                 var typeName = ResourceType[(int)ServiceType];
                 var data = typeName + " Available - Contact: " + Contact;
-                if (string.IsNullOrWhiteSpace(Name))
+                if (!string.IsNullOrWhiteSpace(Name))
                 {
-                    data += " Provider Name: " + Name;
+                    data += " Provider: " + Name;
                 }
-                if (string.IsNullOrWhiteSpace(StateName))
+                if (!string.IsNullOrWhiteSpace(StateName))
                 {
-                    data += ". State Name: " + StateName;
+                    data += ". State: " + StateName;
                 }
-                if (string.IsNullOrWhiteSpace(CityName))
+                if (!string.IsNullOrWhiteSpace(CityName))
                 {
-                    data += ". City Name: " + CityName;
+                    data += ". City: " + CityName;
                 }
-                if (string.IsNullOrWhiteSpace(Address))
+                if (!string.IsNullOrWhiteSpace(Address))
                 {
                     data += ". Address: " + Address;
                 }
-                if (string.IsNullOrWhiteSpace(Remarks))
+                if (!string.IsNullOrWhiteSpace(Remarks))
                 {
                     data += ". Additional Info: " + Remarks;
                 }

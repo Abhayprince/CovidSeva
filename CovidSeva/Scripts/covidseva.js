@@ -75,9 +75,17 @@ $(function () {
 
     var Urls = {
         cities: '/ajax/cities',
-        Add: '/ajax/Add',
-        Search: '/ajax/Search'
+        Add: '/ajax/add',
+        Search: '/ajax/search'
     }
+
+    $(document).on('change', '[name=search-service-type]:radio', function (e) {
+        var btn = $(this);
+        $('.type-radio').removeClass('selected');
+        if (btn.prop('checked')) {
+            btn.closest('.type-radio').addClass('selected');
+        }
+    });
 
     $(document).on('click', '[data-qshare-btn]', function (e) {
         e.preventDefault();
@@ -171,21 +179,100 @@ $(function () {
         }
     });
 
+    function resetAddForm() {
+        $('[name=add-service-type]').prop('checked', false);
+        $('#add-contact,#add-name,#add-state,#add-city,#add-address,#add-remark').val('');
+    }
     var saving = false;
     $(document).on('click', '#add-btn', function (e) {
         e.preventDefault();
         if (!saving) {
-            try {
-                var type = $('[name=add-service-type]:checked').val();
-                alert(type);
-                saving = false;
+            saving = true;
+                var msgs = [];
+                var serviceType = $('[name=add-service-type]:checked').val();
+                var contact = $('#add-contact').val();
+                if (!serviceType) {
+                    msgs.push('Please select the service/resource type');
+                }
+                if (!contact || !contact.trim() || contact.length != 10) {
+                    msgs.push('Please enter a valid 10-digit contact number');
+                }
+                if (msgs.length > 0) {
+                    alert(msgs.join('\n'));
+                    saving = false;
+                    return false;
+                }
+                else {
+                    var name = $('#add-name').val();
+                    if (name) {
+                        name = name.replace(/\s{2,}/g, ' ').trim();
+                    }
+                    var stateId = $('#add-state').val() || 0;
+                    var cityId = $('#add-city').val() || 0;
+                    var address = $('#add-address').val();
+                    var remarks = $('#add-remark').val();
+                    if (address) {
+                        address = address.replace(/\s{2,}/g, ' ').trim();
+                    }
+                    if (remarks) {
+                        remarks = remarks.replace(/\s{2,}/g, ' ').trim();
+                    }
+
+                    var data = { serviceType, contact, name, address, stateId, cityId, remarks };
+                    $.ajax({
+                        url: Urls.Add,
+                        data: data,
+                        type: 'POST',
+                        success: function (d) {
+                            if (d && d.length > 0) {
+                                var errors = d.join('\n');
+                                alert(errors);
+                                saving = false;
+                                return false;
+                            }
+                            saving = false;
+                            resetAddForm();
+                            alert('THANK YOU.\nInformation saved successfully.');
+                            $('#add-info-modal').modal('hide');
+                        },
+                        error: function (a, b, c) {
+                            alert('Oops something went wrong');
+                            console.error(a, b, c);
+                            saving = false;
+                        }
+                    })                
             }
-            catch (er) {
-                saving = false;
-            }            
         }
     });
 
     var resultsContainer = $('#results-container');
 
+    $(document).on('click', '#search-btn', function (e) {
+        var serviceType = $('[name=search-service-type]:checked').val();
+        var name = $('#search-name').val();
+        if (name) {
+            name = name.replace(/\s{2,}/g, ' ').trim();
+        }
+        var stateId = $('#search-state').val() || 0;
+        var cityId = $('#search-city').val() || 0;
+        var freetext = $('#search-freetext').val();        
+        if (freetext) {
+            freetext = freetext.replace(/\s{2,}/g, ' ').trim();
+        }
+
+        var data = { serviceType, name, stateId, cityId, freetext };
+        $.ajax({
+            url: Urls.Search,
+            data: data,
+            type: 'POST',
+            accepts: 'text/html',
+            success: function (html) {
+                resultsContainer.html(html);
+            },
+            error: function (a, b, c) {
+                alert('Oops something went wrong');
+                console.error(a, b, c);
+            }
+        })     
+    });
 })

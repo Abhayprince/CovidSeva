@@ -8,7 +8,7 @@
             {(int)ServiceType.Medicine, "Medicines" },
         };
     }
-@if (Model != null && Model.Count > 0)
+@if (Model == null || !Model.Any())
 {
     <div class="container">
         <div class="col-sm-12">
@@ -62,7 +62,7 @@ else
                         {
                             <li>
                                 <label class="btn btn-success">
-                                    <a role="button" href="whatsapp://send?text=@r.Data http://covid-seva.appdror.com" data-qshare-type="wa" data-qshare-content="@r.Data">
+                                    <a title="Share on whatsapp" role="button" href="whatsapp://send?text=@r.Data http://covid-seva.appdror.com" data-qshare-type="wa" data-qshare-content="@r.Data">
                                         <i class="fa fa-whatsapp fa-fw"></i>
                                     </a>
                                 </label>
@@ -80,28 +80,28 @@ else
                         }
                         <li>
                             <label class="btn btn-warning">
-                                <a role="button" data-qshare-btn="" data-qshare-type="copy" data-qshare-content="@r.Data">
+                                <a title="Copy details" role="button" data-qshare-btn="" data-qshare-type="copy" data-qshare-content="@r.Data">
                                     <i class="fa fa-copy fa-fw"></i>
                                 </a>
                             </label>
                         </li>
                         <li>
                             <label class="btn btn-primary">
-                                <a role="button" data-qshare-btn="" data-qshare-type="fb" data-qshare-content="@r.Data">
+                                <a title="Share on facebook" role="button" data-qshare-btn="" data-qshare-type="fb" data-qshare-content="@r.Data">
                                     <i class="fa fa-facebook-f fa-fw"></i>
                                 </a>
                             </label>
                         </li>
                         <li>
                             <label class="btn btn-info">
-                                <a role="button" data-qshare-btn="" data-qshare-type="tw" data-qshare-content="@r.Data">
+                                <a title="Share on twitter" role="button" data-qshare-btn="" data-qshare-type="tw" data-qshare-content="@r.Data">
                                     <i class="fa fa-twitter fa-fw"></i>
                                 </a>
                             </label>
                         </li>
                         <li>
                             <label class="btn btn-primary">
-                                <a role="button" data-qshare-btn="" data-qshare-type="li" data-qshare-content="@r.Data">
+                                <a title="Share on linkedin" role="button" data-qshare-btn="" data-qshare-type="li" data-qshare-content="@r.Data">
                                     <i class="fa fa-linkedin fa-fw"></i>
                                 </a>
                             </label>

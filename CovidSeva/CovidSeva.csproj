@@ -263,6 +263,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Images\banner.jpeg" />
     <Content Include="Content\Images\bg.jpeg" />
     <Content Include="Content\Images\meds.jpeg" />
     <Content Include="Content\Images\oxygen.jpeg" />

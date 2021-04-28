@@ -11,10 +11,12 @@ namespace CovidSeva.Services
     public class RecordService : IRecordService
     {
         private readonly RecordContext _context;
+        private readonly IStateCityService _stateCityService;
 
         public RecordService()
         {
             _context = new RecordContext();
+            _stateCityService = new StateCityService();
         }
 
         public async Task<List<Record>> GetRecentlyAddedRecords() =>
@@ -25,6 +27,14 @@ namespace CovidSeva.Services
             if (await _context.Records.AnyAsync(r => r.Contact == record.Contact && r.ServiceType == record.ServiceType))
             {
                 return "Already exists";
+            }
+            if(record.StateId > 0)
+            {
+                record.StateName = _stateCityService.GetStates().FirstOrDefault(s => s.Id == record.StateId)?.Name;
+            }
+            if (record.CityId > 0)
+            {
+                record.CityName = _stateCityService.GetCities().FirstOrDefault(s => s.Id == record.CityId)?.Name;
             }
             _context.Records.Add(record);
             if (await _context.SaveChangesAsync() > 0)
